@@ -1,0 +1,5 @@
+- name: Install QCA Agent on Linux targets - Main Role
+  hosts: all
+  gather_facts: true
+  roles:
+    - qualys
