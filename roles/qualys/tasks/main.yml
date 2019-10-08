@@ -1,0 +1,23 @@
+  - debug: msg= {{ ansible_distribution }}
+
+  - name: Check if Qualys Cloud Agent is Installed Already
+    command: systemctl status qualys-cloud-agent
+    register: init_status_result
+    ignore_errors: yes
+
+ - name: Create Directory for Downloading Qualys Cloud Agent
+    become: yes
+    become_user: root
+    file:
+      path: /usr/qualys/
+      state: directory
+      mode: 0777
+      recurse: no
+
+ - name: Import Debian
+   import_tasks: debian.yml
+   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+ - name: Import Redhat
+   import_tasks: redhat.yml
+   when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS' or ansible_distribution == 'Amazon'

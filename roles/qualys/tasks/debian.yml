@@ -1,0 +1,18 @@
+- name: Debian Download Latest Version of Qualys Cloud Agent
+  get_url:
+    url: https://ansible-test-bucket-123.s3.amazonaws.com/CloudAgent/qualys-cloud-agent.x86_64.deb
+    dest: /usr/qualys/qualys-cloud-agent.x86_64.deb
+    mode: 0777
+
+- name: Execute the Installation Script on Debian
+  command: /usr/sbin/dpkg --install qualys-cloud-agent.x86_64.deb
+  become: yes
+  become_method: sudo
+  args:
+    chdir: /usr/qualys
+  ignore_errors: yes
+
+- name: Execute the Activation Script
+  shell: /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh ActivationId={{ActID}} CustomerId={{CustID}}
+  become: yes
+  become_method: sudo

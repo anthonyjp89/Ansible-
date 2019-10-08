@@ -1,0 +1,18 @@
+- name: RPM Download Latest Version of Qualys Cloud Agent
+  get_url:
+    url: https://ansible-test-bucket-123.s3.amazonaws.com/CloudAgent/qualys-cloud-agent.x86_64.rpm
+    dest: /usr/qualys/qualys-cloud-agent.x86_64.rpm
+    mode: 0755
+
+- name: Execute the Installation Script on RPM
+  command: rpm -ivh qualys-cloud-agent.x86_64.rpm
+  become: yes
+  become_method: sudo
+  args:
+    chdir: /usr/qualys/
+  ignore_errors: yes
+
+- name: Execute the Activation Script
+  shell: /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh ActivationId={{ActID}} CustomerId={{CustID}}
+  become: yes
+  become_method: sudo

@@ -1,0 +1,2 @@
+ActID: "{{ lookup('aws_ssm', '/Qualys/ActivationID', region='us-east-1' ) }}"
+CustID: "{{ lookup('aws_ssm', '/Qualys/CustomerID', region='us-east-1' ) }}"
